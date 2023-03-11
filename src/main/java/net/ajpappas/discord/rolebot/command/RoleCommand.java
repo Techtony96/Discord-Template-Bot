@@ -74,7 +74,7 @@ public class RoleCommand implements SlashCommand {
                 .addAllComponents(rows)
                 .addEmbed(EmbedCreateSpec.builder()
                         .title("Roles")
-                        .description("Click the below buttons to be added to channels to discuss the given topic.")
+                        .description("Click the below buttons to be assigned the given role. Be notified when others @TheGame looking for players or join private channels to discuss the given topic.")
                         .color(Color.TAHITI_GOLD)
                         .build())
                 .build();
