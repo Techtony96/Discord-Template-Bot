@@ -40,6 +40,6 @@ public class RoleButtonListener {
                 })
                 .onErrorMap(ClientException.isStatusCode(403), error -> new UserException("Unable to assign role, bot is missing permissions to manage roles"))
                 .then(roleNameMono)
-                .flatMap(roleName -> event.reply("Successfully added " + roleName));
+                .flatMap(roleName -> event.reply("Successfully added " + roleName).withEphemeral(true));
     }
 }
