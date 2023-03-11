@@ -79,7 +79,7 @@ public class RoleCommand implements SlashCommand {
                         .build())
                 .build();
 
-        return event.getInteraction().getChannel().flatMap(c -> c.createMessage(spec)).then(event.reply("Message Created"));
+        return event.getInteraction().getChannel().flatMap(c -> c.createMessage(spec)).then(event.reply("Message Created").withEphemeral(true));
     }
 
 
