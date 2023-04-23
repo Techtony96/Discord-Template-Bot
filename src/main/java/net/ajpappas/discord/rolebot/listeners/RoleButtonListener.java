@@ -45,7 +45,6 @@ public class RoleButtonListener {
                 .onErrorMap(ClientException.isStatusCode(403), error -> new UserException("Unable to update role, bot is missing permissions to manage roles"))
                 .onErrorMap(error -> new UserException("Unexpected Exception: " + error.getMessage()))
                 .zipWith(roleNameMono)
-                .log()
                 .flatMap(TupleUtils.function((action, roleName) -> event.reply(String.format("Successfully %s %s", action, roleName)).withEphemeral(true)));
     }
 }
