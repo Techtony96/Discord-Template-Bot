@@ -10,11 +10,13 @@ import net.ajpappas.discord.common.util.ErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
+import reactor.function.TupleUtils;
 
 @Component
 public class RoleButtonListener {
 
-    private static final String REASON = "Role added via interaction request";
+    private static final String ADD_REASON = "Role added via interaction request";
+    private static final String REMOVE_REASON = "Role removed via interaction request";
 
 
     @Autowired
@@ -34,12 +36,16 @@ public class RoleButtonListener {
 
         return Mono.justOrEmpty(event.getInteraction().getMember())
                 .flatMap(member -> {
-                    if (member.getRoleIds().contains(roleId))
-                        return Mono.error(new UserException("You already have this role!"));
-                    return member.addRole(roleId, REASON);
+                    if (member.getRoleIds().contains(roleId)) {
+                        return member.removeRole(roleId, REMOVE_REASON).thenReturn("removed");
+                    } else {
+                        return member.addRole(roleId, ADD_REASON).thenReturn("added");
+                    }
                 })
-                .onErrorMap(ClientException.isStatusCode(403), error -> new UserException("Unable to assign role, bot is missing permissions to manage roles"))
-                .then(roleNameMono)
-                .flatMap(roleName -> event.reply("Successfully added " + roleName).withEphemeral(true));
+                .onErrorMap(ClientException.isStatusCode(403), error -> new UserException("Unable to update role, bot is missing permissions to manage roles"))
+                .onErrorMap(error -> new UserException("Unexpected Exception: " + error.getMessage()))
+                .zipWith(roleNameMono)
+                .log()
+                .flatMap(TupleUtils.function((action, roleName) -> event.reply(String.format("Successfully %s %s", action, roleName)).withEphemeral(true)));
     }
 }
