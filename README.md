@@ -1,4 +1,4 @@
-# Discord Role Bot
+# Discord Template Bot
 
 ## Invite URL
 (Replace `INSERT_CLIENT_ID_HERE` with your app's client ID)  
@@ -11,8 +11,8 @@ docker-compose.yml
 version: '3.7'
 
 services:
-  role-bot:
-    image: ghcr.io/techtony96/discord-role-bot:master
+  template-bot:
+    image: ghcr.io/techtony96/discord-template-bot:master
     restart: unless-stopped
     environment:
       - BOT_TOKEN=foo

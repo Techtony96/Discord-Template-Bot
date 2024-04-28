@@ -1,4 +1,4 @@
-package net.ajpappas.discord.rolebot;
+package net.ajpappas.discord.templatebot;
 
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 
 
 @SpringBootApplication(scanBasePackages = "net.ajpappas.discord")
-public class DiscordRoleBot implements CommandLineRunner {
+public class DiscordTemplateBot implements CommandLineRunner {
 
     private static final Logger log = LogManager.getLogger();
 
@@ -24,7 +24,7 @@ public class DiscordRoleBot implements CommandLineRunner {
     private String botVersion;
 
     public static void main(String[] args) {
-        SpringApplication.run(DiscordRoleBot.class, args);
+        SpringApplication.run(DiscordTemplateBot.class, args);
     }
 
     @Bean
